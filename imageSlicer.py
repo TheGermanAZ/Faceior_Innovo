@@ -12,5 +12,6 @@ if (sliceAmount > 1 and sliceAmount < 4):
 if (sliceAmount >= 5):
     sliceAmount = 5
     # print(sliceAmount)
-    os.remove(imageFilePath)
     image_slicer.slice(imageFilePath, sliceAmount)
+        os.remove(imageFilePath)
+
