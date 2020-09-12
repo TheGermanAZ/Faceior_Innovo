@@ -1,26 +1,32 @@
-import io
-import os
-
-# Imports the Google Cloud client library
+import os, io
 from google.cloud import vision
-from google.cloud.vision import types
 
-# Instantiates a client
+
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r'C:\Users\jonat\Documents\Hophacks\hophacks-52ea2c3c8fe5.json'
+
 client = vision.ImageAnnotatorClient()
 
-# The name of the image file to annotate
-file_name = os.path.abspath('C:\Users\jonat\Documents\Hophacks\wakecap.jpg')
+file_name = 'right.jpg'
+image_path = r'C:\Users\jonat\Documents\Hophacks\Photos\right.jpg'
 
-# Loads the image into memory
-with io.open(file_name, 'rb') as image_file:
+with io.open(image_path, 'rb') as image_file:
     content = image_file.read()
 
-image = types.Image(content=content)
+image = vision.types.Image(content=content)
+response = client.face_detection(image=image)
+faceAnnotations = response.face_annotations
 
-# Performs label detection on the image file
-response = client.label_detection(image=image)
-labels = response.label_annotations
+likehood = ('Unknown', 'Very Unlikely', 'Unlikely', 'Possibly', 'Likely', 'Very Likely')
 
-print('Labels:')
-for label in labels:
-    print(label.description)
+print('Faces:')
+x=0
+
+for face in faceAnnotations:
+    print("Pan tilt " + str(face.pan_angle))
+    print("Face tilt "+ str(face.tilt_angle))
+    # print('Headwear likelyhood: {0}'.format(likehood[face.headwear_likelihood]))
+    # face_vertices = ['({0},{1})'.format(vertex.x, vertex.y) for vertex in face.bounding_poly.vertices]
+    # print('Face bound: {0}'.format(', '.join(face_vertices)))
+    x=x+1
+    print("Count %d"%x)
+    print('')
