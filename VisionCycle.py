@@ -8,17 +8,16 @@ Iterates over all images in a given directory and determines the pan(horizontal)
 all faces in each image. At the moment prints to console - will need to create output file.
 """
 
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r'C:\Users\dmars\Downloads\hophacks-a78f8c494166.json'
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r'C:\Users\jonat\Documents\Hophacks\hophacks-52ea2c3c8fe5.json'
 
 client = vision.ImageAnnotatorClient()
 DISTRACT_THRESHOLD = 18.0
 
 def google_vision(image,content):
     image = vision.types.Image(content=content)
-    response = client.face_detection(image=image)
+    response = client.face_detection(image=image,max_results=30)
     faceAnnotations = response.face_annotations
 
-    likehood = ('Unknown', 'Very Unlikely', 'Unlikely', 'Possibly', 'Likely', 'Very Likely')
 
     x=0
     numDistracted = 0
@@ -28,7 +27,7 @@ def google_vision(image,content):
         if (abs(face.pan_angle) >= DISTRACT_THRESHOLD):
             numDistracted += 1
 
-
+    print(x)
     return (numDistracted / x) * 100
 
 def iterate_on_dir(imgPath):
@@ -43,4 +42,4 @@ def iterate_on_dir(imgPath):
     return percentDistracted
 
 if __name__ == "__main__":
-    print(iterate_on_dir(os.path.join(os.getcwd(),"frames")))
+    print(iterate_on_dir(os.path.join(os.getcwd(),r'C:\Users\jonat\Documents\Hophacks\Zoom Sample')))
