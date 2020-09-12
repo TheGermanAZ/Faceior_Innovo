@@ -11,8 +11,9 @@ Iterates over screen recording video and creates an image per frame of the scree
 
 """
 
-RESOLUTION = (1920,1080)
+RESOLUTION = (1920, 1080)
 codec = cv2.VideoWriter_fourcc(*"XVID")
+
 
 def record_screen():
     output = cv2.VideoWriter("output.avi", codec, 20.0, (RESOLUTION))
@@ -31,9 +32,10 @@ def record_screen():
     cv2.destroyAllWindows()
     output.release()
 
+
 def extract_frames(inputvid):
-    #Creates frames folder to store images
-    framePath = os.path.join(os.getcwd(),"frames");
+    # Creates frames folder to store images
+    framePath = os.path.join(os.getcwd(), "frames");
     if not os.path.exists(framePath):
         os.mkdir(framePath)
 
@@ -43,14 +45,14 @@ def extract_frames(inputvid):
     while (capture.isOpened()):
         frameNum = capture.get(1)  # Get current frame number
         ret, frame = capture.read()
-        if (ret != True): # If there are no frames left to read
+        if (ret != True):  # If there are no frames left to read
             break
         if (frameNum % math.floor(frameRate) == 0):
             filename = "frame%d.jpg" % count;
             count += 1
-            cv2.imwrite(os.path.join(framePath,filename), frame) # Writes image of frame.
+            cv2.imwrite(os.path.join(framePath, filename), frame)  # Writes image of frame.
 
-    capture.release() # Close video reader
+    capture.release()  # Close video reader
 
 
 if __name__ == "__main__":
