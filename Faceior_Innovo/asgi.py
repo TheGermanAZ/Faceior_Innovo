@@ -1,5 +1,5 @@
 """
-ASGI config for Facieior_Innovo project.
+ASGI config for Faceior_Innovo project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Facieior_Innovo.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Faceior_Innovo.settings')
 
 application = get_asgi_application()
