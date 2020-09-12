@@ -6,6 +6,10 @@ from google.cloud import vision
 """
 Iterates over all images in a given directory and determines the pan(horizontal) and face(vertical) tilt of
 all faces in each image. At the moment prints to console - will need to create output file.
+
+
+Vision API Docs:
+https://googleapis.dev/python/vision/latest/gapic/v1p4beta1/types.html#google.cloud.vision_v1p4beta1.types.FaceAnnotation.pan_angle
 """
 
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r'C:\Users\jonat\Documents\Hophacks\hophacks-52ea2c3c8fe5.json'
