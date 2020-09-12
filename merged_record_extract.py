@@ -23,7 +23,6 @@ def record_screen():
         # convert colors from BGR to RGB
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         output.write(frame)
-        cv2.imshow("screenshot", frame)
         # if the user clicks esc, it exits
         if cv2.waitKey(1) == 27:
             break
