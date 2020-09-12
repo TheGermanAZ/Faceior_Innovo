@@ -3,10 +3,19 @@ import math
 import io
 from google.cloud import vision
 import cv2
+import json
+
+"""
+Iterates over a video, extracts one frame each second. Uses Google Vision API to determine percent of students that are paying
+attention each second. Writes results to json file.
+
+Vision API Docs:
+https://googleapis.dev/python/vision/latest/gapic/v1p4beta1/types.html#google.cloud.vision_v1p4beta1.types.FaceAnnotation.pan_angle
+"""
 
 def extract_frames(inputvid):
     #Creates frames folder to store images
-    framePath = os.path.join(os.getcwd(),r'C:\Users\jonat\Documents\Hophacks\Media Sample');
+    framePath = os.path.join(os.getcwd(),'frames');
     if not os.path.exists(framePath):
         os.mkdir(framePath)
 
@@ -25,15 +34,7 @@ def extract_frames(inputvid):
 
     capture.release() # Close video reader
 
-"""
-Iterates over all images in a given directory and determines the pan(horizontal) and face(vertical) tilt of
-all faces in each image. At the moment prints to console - will need to create output file.
-
-Vision API Docs:
-https://googleapis.dev/python/vision/latest/gapic/v1p4beta1/types.html#google.cloud.vision_v1p4beta1.types.FaceAnnotation.pan_angle
-"""
-
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r'C:\Users\jonat\Documents\Hophacks\hophacks-52ea2c3c8fe5.json'
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r'C:\Users\dmars\Downloads\hophacks-a78f8c494166.json'
 
 client = vision.ImageAnnotatorClient()
 DISTRACT_THRESHOLD = 18.0
@@ -51,10 +52,10 @@ def google_vision(image,content):
         x=x+1
         if (abs(face.pan_angle) >= DISTRACT_THRESHOLD):
             numDistracted += 1
-    print(x)
     if(x>0):
         return (numDistracted / x) * 100
-    return 0;
+    return 0.0
+
 def iterate_on_dir(imgPath):
     percentDistracted = []
     for img in os.listdir(imgPath):
@@ -67,5 +68,7 @@ def iterate_on_dir(imgPath):
     return percentDistracted
 
 if __name__ == "__main__":
-    extract_frames(inputvid=r'C:\Users\jonat\Documents\Hophacks\Media Sample\Media1.mp4')
-    print(iterate_on_dir(os.path.join(os.getcwd(),r'C:\Users\jonat\Documents\Hophacks\Media Sample')))
+    extract_frames(inputvid=r'C:\Users\dmars\Desktop\vision example\Media1.mp4')
+    distList = iterate_on_dir(os.path.join(os.getcwd(),'frames'))
+    with open(os.path.join(os.getcwd(),'data.json'), 'w') as f:
+        json.dump(distList,f)
