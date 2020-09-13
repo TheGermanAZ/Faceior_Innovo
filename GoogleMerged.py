@@ -68,7 +68,10 @@ def iterate_on_dir(imgPath):
     return percentDistracted
 
 if __name__ == "__main__":
+    print("hi")
+
+def run():
     extract_frames(inputvid=r'C:\Users\dmars\Desktop\vision example\Media1.mp4')
-    distList = iterate_on_dir(os.path.join(os.getcwd(),'frames'))
-    with open(os.path.join(os.getcwd(),'data.json'), 'w') as f:
-        json.dump(distList,f)
+    distList = iterate_on_dir(os.path.join(os.getcwd(), 'frames'))
+    with open(os.path.join(os.getcwd(), 'data.json'), 'w') as f:
+        json.dump(distList, f)
